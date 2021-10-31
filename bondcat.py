@@ -6,13 +6,12 @@ import json
 
 import telegram
 
-from config import TELEGRAM_TOKEN, HTTPS_PROXY
+from config import TELEGRAM_TOKEN, HTTPS_PROXY, CHAT_ID
 from service import DB
 
 URL = "http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?type=KZZ_LB2.0&token=70f12f2f4f091e459a279469fe49eca5&cmd=&st={sortType}&sr={sortRule}&p={page}&ps={pageSize}"
 
 logging.basicConfig(format='%(levelname)s - %(asctime)s - %(message)s', datefmt='%Y/%m/%d %I:%M:%S %p',filename='bondcat.log', level=logging.INFO)
-
 
 
 class BondFetchCat:
@@ -50,7 +49,7 @@ def make_text(bonds):
     if bonds != []:
         text = ""
         for bond in bonds:
-            text += f"{bond['SNAME']}将于{bond['STARTDATE']}申购。\n"
+            text += f"{bond['CORRESNAME']}将于{bond['STARTDATE']}申购。\n"
         text += "\n 💰💷💶💸💵💴💳"
         return text
     else:
@@ -58,7 +57,7 @@ def make_text(bonds):
 
 def send_message(message):
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
-    bot.send_message(chat_id="202211787", text=message)
+    bot.send_message(chat_id=CHAT_ID, text=message)
 
 def remind_bot(kezhuanzhai):
     unpublic_kezhuanzhai = []
